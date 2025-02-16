@@ -1,38 +1,94 @@
-Role Name
-=========
+# HPE MCP Packages Installation
 
-A brief description of the role goes here.
+This Ansible role installs HPE Management Component Pack (MCP) packages on Debian-based systems. It handles repository setup, GPG key management, and package installation for HPE server management tools.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- Debian-based operating system (tested on Debian/Ubuntu)
+- Ansible 2.10 or higher
+- Internet access to download HPE repository keys and packages
+- Root or sudo access on target systems
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The following variables are available for customization:
 
-Dependencies
-------------
+### Repository Configuration
+```yaml
+# Base URL for the HPE MCP repository
+hpe_mcp_pkgs_repo_url: "http://downloads.linux.hpe.com/SDR/repo/mcp"
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+# APT repository filename
+hpe_mcp_pkgs_apt_filename: "hpe"
 
-Example Playbook
-----------------
+# Project version for the repository
+hpe_mcp_pkgs_project_ver: "current"
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+# Base URL for HPE repository keys
+hpe_mcp_pkgs_keys_base_url: "https://downloads.linux.hpe.com/SDR/"
+```
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+### GPG Keys
+```yaml
+# List of GPG key files to download and import
+hpe_mcp_pkgs_key_files:
+  - hpPublicKey2048_key1.pub
+  - hpePublicKey2048_key1.pub
+  - hpePublicKey2048_key2.pub
 
-License
--------
+# Path where the GPG keyring will be stored
+hpe_mcp_pkgs_keyring_file: "/etc/apt/keyrings/hpe.gpg"
+```
+
+### Package Installation
+```yaml
+# List of HPE MCP packages to install
+hpe_mcp_pkg_to_install:
+  - amsd
+  # - hponcfg
+  # - ssacli
+  # - ssaducli
+  # - ssa
+  # - lldpd
+```
+
+## Dependencies
+
+This role has no dependencies on other Ansible roles.
+
+## Example Playbook
+
+```yaml
+- hosts: hpe_servers
+  roles:
+    - role: hpe_mcp_packages
+      vars:
+        hpe_mcp_pkg_to_install:
+          - amsd
+          - ssacli
+          - hponcfg
+```
+
+## Functionality
+
+The role performs the following tasks:
+
+1. Installs GPG for key management
+2. Creates necessary directories for APT keyrings
+3. Downloads and imports HPE repository GPG keys
+4. Configures the HPE MCP repository
+5. Installs specified HPE MCP packages
+
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This role was created in 2025 by [Simon Caron](https://simoncaron.com/).
+
+## Notes
+
+- The role currently supports Debian-based systems only
+- Package installation errors are ignored in check mode
+- Some packages are commented out by default in the package list - uncomment as needed

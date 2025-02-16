@@ -50,7 +50,7 @@
 
 - name: Add HPE repository
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by={{ hpe_mcp_pkgs_keyring_file }}] {{ hpe_mcp_pkgs_repo_url }} {{ ansible_distribution_release }}/{{ hpe_project_ver }} non-free"
+    repo: "deb [signed-by={{ hpe_mcp_pkgs_keyring_file }}] {{ hpe_mcp_pkgs_repo_url }} {{ ansible_distribution_release }}/{{ hpe_mcp_pkgs_project_ver }} non-free"
     state: present
     filename: "{{ hpe_mcp_pkgs_apt_filename }}"
 
