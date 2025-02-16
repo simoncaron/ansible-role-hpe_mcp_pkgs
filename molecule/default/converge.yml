@@ -23,4 +23,4 @@
       failed_when: systemctl_status.rc > 1
 
   roles:
-    - role: simoncaron.ansible-role-hpe_mcp_pkgs
+    - role: 'simoncaron.hpe_mcp_pkgs'

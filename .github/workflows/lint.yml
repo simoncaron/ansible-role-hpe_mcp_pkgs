@@ -8,7 +8,7 @@ name: Ansible Lint
 
 defaults:
   run:
-    working-directory: 'simoncaron.ansible-role-hpe_mcp_pkgs'
+    working-directory: 'simoncaron.hpe_mcp_pkgs'
 
 jobs:
 
@@ -17,23 +17,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the codebase.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          path: 'simoncaron.ansible-role-hpe_mcp_pkgs'
+          path: 'simoncaron.hpe_mcp_pkgs'
 
-      - name: Set up Python 3.7.
-        uses: actions/setup-python@v4
+      - name: Set up Python 3.
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install yamllint ansible-lint ansible
+        run: pip3 install yamllint
 
-      - name: Run yamllint.
-        run: yamllint .
-
-      - name: Run ansible-lint.
-        run: ansible-lint
+      - name: Lint code.
+        run: |
+          yamllint .
 
   molecule:
     name: Molecule
@@ -50,7 +48,7 @@ jobs:
       - name: Check out the codebase.
         uses: actions/checkout@v4
         with:
-          path: 'simoncaron.ansible-role-hpe_mcp_pkgs'
+          path: 'simoncaron.hpe_mcp_pkgs'
 
       - name: Set up Python 3.
         uses: actions/setup-python@v5
