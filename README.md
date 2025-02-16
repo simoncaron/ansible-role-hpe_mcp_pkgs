@@ -1,5 +1,8 @@
 # HPE MCP Packages Installation
 
+![Ansible Lint](https://github.com/simoncaron/ansible-role-hpe_mcp_pkgs/actions/workflows/lint.yml/badge.svg)
+![Ansible Release](https://github.com/simoncaron/ansible-role-hpe_mcp_pkgs/actions/workflows/release.yml/badge.svg)
+
 This Ansible role installs HPE Management Component Pack (MCP) packages on Debian-based systems. It handles repository setup, GPG key management, and package installation for HPE server management tools.
 
 ## Requirements
