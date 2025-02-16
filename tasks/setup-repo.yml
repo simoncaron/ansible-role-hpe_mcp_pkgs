@@ -20,27 +20,27 @@
 
 - name: Download HPE keys
   ansible.builtin.get_url:
-    url: "{{ hpe_keys_base_url }}/{{ item }}"
+    url: "{{ hpe_mcp_pkgs_keys_base_url }}/{{ item }}"
     dest: "{{ temp_dir.path }}/{{ item }}"
     mode: '0644'
-  loop: "{{ hpe_key_files }}"
+  loop: "{{ hpe_mcp_pkgs_key_files }}"
   changed_when: false
 
 - name: Check if keyring exists
   ansible.builtin.stat:
-    path: "{{ hpe_keyring_file }}"
+    path: "{{ hpe_mcp_pkgs_keyring_file }}"
   register: keyring_file
 
 - name: Create hpe keyring file
   ansible.builtin.shell: >-
     {% if ansible_loop.first %}
-    gpg --dearmor < {{ temp_dir.path }}/{{ hpe_key_files[0] }} > {{ hpe_keyring_file }}
+    gpg --dearmor < {{ temp_dir.path }}/{{ hpe_mcp_pkgs_key_files[0] }} > {{ hpe_mcp_pkgs_keyring_file }}
     {% else %}
     gpg --no-default-keyring
-    --keyring {{ hpe_keyring_file }}
+    --keyring {{ hpe_mcp_pkgs_keyring_file }}
     --import {{ temp_dir.path }}/{{ item | basename }}
     {% endif %}
-  loop: "{{ hpe_key_files }}"
+  loop: "{{ hpe_mcp_pkgs_key_files }}"
   loop_control:
     extended: true
     label: "{{ item }}"
@@ -50,9 +50,9 @@
 
 - name: Add HPE repository
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by={{ hpe_keyring_file }}] {{ hpe_repo_url }} {{ ansible_distribution_release }}/{{ hpe_project_ver }} non-free"
+    repo: "deb [signed-by={{ hpe_mcp_pkgs_keyring_file }}] {{ hpe_mcp_pkgs_repo_url }} {{ ansible_distribution_release }}/{{ hpe_project_ver }} non-free"
     state: present
-    filename: "{{ hpe_apt_filename }}"
+    filename: "{{ hpe_mcp_pkgs_apt_filename }}"
 
 - name: Remove temporary directory
   ansible.builtin.file:

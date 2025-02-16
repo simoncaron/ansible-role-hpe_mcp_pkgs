@@ -15,6 +15,6 @@
 
 - name: Install MCP packages
   ansible.builtin.package:
-    name: "{{ hpe_pkgs }}"
+    name: "{{ hpe_mcp_pkg_to_install }}"
     state: "present"
   ignore_errors: "{{ ansible_check_mode }}"

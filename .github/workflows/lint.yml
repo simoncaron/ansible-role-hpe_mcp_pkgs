@@ -6,6 +6,10 @@ name: Ansible Lint
     branches:
       - main
 
+defaults:
+  run:
+    working-directory: 'simoncaron.ansible-role-hpe_mcp_pkgs'
+
 jobs:
 
   lint:
@@ -14,6 +18,8 @@ jobs:
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v3
+        with:
+          path: 'simoncaron.ansible-role-hpe_mcp_pkgs'
 
       - name: Set up Python 3.7.
         uses: actions/setup-python@v4
