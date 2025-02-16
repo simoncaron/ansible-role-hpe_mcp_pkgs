@@ -1,9 +1,12 @@
 ---
-- name: Ensure gpg is installed
+- name: Ensure gpg & gpg-agent are installed
   ansible.builtin.apt:
-    name: gpg
+    name: "{{ item }}"
     state: present
     update_cache: true
+  with_items:
+    - gpg
+    - gpg-agent
 
 - name: Create temporary directory
   ansible.builtin.tempfile:
