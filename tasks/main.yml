@@ -1,2 +1,20 @@
 ---
-# tasks file for hpe_mcp_pkgs
+- name: Load OS-specific vars
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}.yml'
+        - main.yml
+      paths:
+        - 'vars'
+
+- name: Setup repo on debian-based OS
+  ansible.builtin.include_tasks: setup-repo.yml
+
+- name: Install MCP packages
+  ansible.builtin.package:
+    name: "{{ hpe_pkgs }}"
+    state: "present"
+  ignore_errors: "{{ ansible_check_mode }}"

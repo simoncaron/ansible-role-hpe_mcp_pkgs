@@ -1,0 +1,11 @@
+---
+- name: Verify HPE MCP Pkgs Role
+  hosts: all
+  tasks:
+    - name: Check if package is installed
+      ansible.builtin.package:
+        name: amsd
+        state: present
+      check_mode: true
+      register: package_check
+      failed_when: package_check.changed
