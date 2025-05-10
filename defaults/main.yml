@@ -1,5 +1,5 @@
 ---
-hpe_mcp_pkgs_repo_url: http://downloads.linux.hpe.com/SDR/repo/mcp
+hpe_mcp_pkgs_repo_url: https://downloads.linux.hpe.com/SDR/repo/mcp
 
 hpe_mcp_pkgs_apt_filename: hpe
 
